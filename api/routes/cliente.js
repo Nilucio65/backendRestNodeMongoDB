@@ -1,35 +1,38 @@
-/* API REST dos prestadores */
+/* API REST dos clientes */
 import express from 'express'
 import { connectToDatabase } from '../utils/mongodb.js'
 import { check, validationResult } from 'express-validator'
 
 const router = express.Router()
 const {db, ObjectId} = await connectToDatabase()
-const nomeCollection = 'prestadores'
+const nomeCollection = 'clientes'
 
-const validaPrestador = [
-    check('cnpj')
-    .not().isEmpty().trim().withMessage('É obrigatório informar o CNPJ')
-    .isNumeric().withMessage('O CNPJ só deve conter números')
-    .isLength({min: 14, max:14}).withMessage('O CNPJ deve conter 14 nºs'),
-    check('razao_social')
-    .not().isEmpty().trim().withMessage('É obrigatório informar a razão')
+const validaCliente = [
+    check('cpf')
+    .not().isEmpty().trim().withMessage('É obrigatório informar o CPF')
+    .isNumeric().withMessage('O CPF só deve conter números')
+    .isLength({min: 11, max:11}).withMessage('O CPF deve conter 11 nºs'),
+    check('nome')
+    .not().isEmpty().trim().withMessage('É obrigatório informar o nome')
     .isAlphanumeric('pt-BR', {ignore: '/. '})
-    .withMessage('A razão social não deve ter caracteres especiais')
-    .isLength({min: 5}).withMessage('A razão é muito curta. Mínimo 5')
-    .isLength({max: 200}).withMessage('A razão é muito longa. Máximo 200'),
-    check('cnae_fiscal')
-    .isNumeric().withMessage('O código do CNAE deve ser um número'),
-    check('nome_fantasia').optional({nullable: true})
+    .withMessage('O nome não deve ter caracteres especiais'),
+    check('dtNasc')
+    .not().isEmpty().trim().withMessage('É obrigatório informar a Data de nascimento'),
+    check('moradores_residencia').not().isEmpty().trim().withMessage('Devem ser infomrados a quantidade de moradores em sua residencia')
+    .isNumeric().withMessage('O numero de moradores deve ser um numero'),
+    check('telefone').not().isEmpty().trim().withMessage('É obrigatório informar o Telefone')
+    .isLength({min: 11, max:11}).withMessage('O telefone deve conter 11 nºs')
+    
+    
 ]
 
 /**
- * GET /api/prestadores
- * Lista todos os prestadores de serviço
+ * GET /api/clientes
+ * Lista todos os clientes de serviço
  */
 router.get('/', async(req, res) => {
     try{
-        db.collection(nomeCollection).find().sort({razao_social: 1}).toArray((err, docs) => {
+        db.collection(nomeCollection).find().sort({nome: 1}).toArray((err, docs) => {
             if(!err){
                 res.status(200).json(docs)
             }
@@ -38,7 +41,7 @@ router.get('/', async(req, res) => {
         res.status(500).json({
             errors: [{
                 value: `${err.message}`,
-                msg: 'Erro ao obter a listagem dos prestadores',
+                msg: 'Erro ao obter a listagem dos clientes',
                 param: '/'
             }]
         })
@@ -46,8 +49,8 @@ router.get('/', async(req, res) => {
 })
 
 /**
- * GET /api/prestadores/id/:id
- * Lista todos os prestadores de serviço
+ * GET /api/clientes/id/:id
+ * Lista todos os clientes de serviço
  */
 router.get('/id/:id', async(req, res)=> {
     try{
@@ -65,13 +68,13 @@ router.get('/id/:id', async(req, res)=> {
 })
 
 /**
- * GET /api/prestadores/razao/:razao
- * Lista os prestadores de serviço pela razao social
+ * GET /api/clientes/nome/:nome
+ * Lista os clientes de serviço pela nome 
  */
-router.get('/razao/:razao', async(req, res)=> {
+router.get('/nome/:nome', async(req, res)=> {
     try{
         db.collection(nomeCollection)
-        .find({'razao_social': {$regex: req.params.razao, $options: "i"}})
+        .find({'nome': {$regex: req.params.nome, $options: "i"}})
         .toArray((err, docs) => {
             if(err){
                 res.status(400).json(err) // bad request
@@ -84,10 +87,29 @@ router.get('/razao/:razao', async(req, res)=> {
     }
 })
 
+/**
+ * GET /api/clientes/medSalario/:salario
+ * Lista os clientes de serviço pela media Salario menor que o valor digitado
+ */
+router.get('/medSalario/:medSalario,:moradores_residencia', async(req, res)=> {
+    try{
+        db.collection(nomeCollection)
+        .find({$and: [{'medSalario': {$lt: {$regex: req.params.medSalario }}},{'moradores_residencia':{$eq: {$regex: req.params.moradores_residencia }}}]})
+        .toArray((err, docs) => {
+            if(err){
+                res.status(400).json(err) // bad request
+            } else {
+                res.status(200).json(docs) // retorna o documento
+            }
+        })
+    } catch (err) {
+        res.status(500).json({"error": err.message})
+    }
+})
 
 /**
- * DELETE /api/prestadores/:id
- * Apaga o prestador de serviço pelo id
+ * DELETE /api/clientes/:id
+ * Apaga o Cliente de serviço pelo id
  */
 
 router.delete('/:id', async(req, res) => {
@@ -97,10 +119,10 @@ router.delete('/:id', async(req, res) => {
     .catch(err => res.status(400).json(err))
 })
 /**
- * POST /api/prestadores
- * Insere um novo prestador de serviço
+ * POST /api/clientes
+ * Insere um novo Cliente de serviço
  */
-router.post('/', validaPrestador, async(req, res) => {
+router.post('/', validaCliente, async(req, res) => {
     const errors = validationResult(req)
     if (!errors.isEmpty()){
         return res.status(400).json(({
@@ -115,10 +137,10 @@ router.post('/', validaPrestador, async(req, res) => {
 })
 
 /**
- * PUT /api/prestadores
- * Altera um prestador de serviço
+ * PUT /api/clientes
+ * Altera um Cliente de serviço
  */
-router.put('/', validaPrestador, async(req, res) => {
+router.put('/', validaCliente, async(req, res) => {
     let idDocumento = req.body._id //armazenando o id do documento
     delete req.body._id //iremos remover o id do body
     const errors = validationResult(req)

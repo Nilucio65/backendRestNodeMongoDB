@@ -1,0 +1,55 @@
+// Teste das Requisições REST dos cliente
+@baseURL = http://localhost:4000/api/clientes
+
+// GET - Lista todos os registros
+GET {{baseURL}}
+Content-Type: application/json
+
+###
+// GET - Lista um registro pelo id
+GET {{baseURL}}/id/6511a2afb288a7d4c8dcc894
+Content-Type: application/json
+
+###
+// GET - Lista um registro pela nome 
+GET {{baseURL}}/nome/Fabio
+Content-Type: application/json
+
+###
+//GET - Lista um resgistro por media salarial
+GET {{baseURL}}/medSalario/2000,5
+Content-Type: application/json
+
+###
+// DELETE - Apaga um registro pelo id
+DELETE {{baseURL}}/65119a864106380b59d79c07
+Content-Type: application/json
+
+###
+// POST - Insere um novo registro
+POST {{baseURL}}
+Content-Type: application/json
+
+{
+    "cpf": "12345678912",
+    "nome": "Fabio Armando",
+    "moradores_residencia": 5,
+    "telefone": "11111111111",
+    "dtNasc": "2022-10-15",
+    "medSalario": 1550.55
+}
+
+###
+// PUT - Altera o registro
+PUT {{baseURL}}
+Content-Type: application/json
+
+{
+    "cpf": "12345678912",
+    "nome": "Fabio Alexandre",
+    "moradores_residencia": 25,
+    "telefone": "11111111111",
+    "dtNasc": "2022-10-15",
+    "medSalario": 1550.55
+}
+

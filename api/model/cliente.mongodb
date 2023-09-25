@@ -1,0 +1,20 @@
+use('FatecItu')
+db.clientes.insertOne({
+    "cpf": "12345678912",
+    "nome": "Fabio Alexandre",
+    "moradores_residencia": 3,
+    "telefone": "11111111111",
+    "dtnasc": "1992-10-15",
+    "medSalario": 1300.55,
+})
+
+use('FatecItu')
+db.clientes.insertOne({
+    "cpf": "58493352458",
+    "nome": "Martha Fabulosa",
+    "moradores_residencia": 5,
+    "telefone": "11958458754",
+    "dtnasc": "1989-05-26",
+    "medSalario": 1550.55,
+    
+})

@@ -3,7 +3,7 @@ import express from 'express'
 const app = express()
 const port = 4000 
 //import das rotas da app
-import rotasPrestadores from './routes/prestador.js'
+import rotasclientes from './routes/cliente.js'
 
 //app.use(express.urlencoded({ extended: true}))
 app.use(express.json()) // irá fazer o parse de arquivos JSON
@@ -14,7 +14,7 @@ app.use('/', express.static('public'))
 app.use('/favicon.ico', express.static('public/images/computer.png'))
 
 //Rotas da API
-app.use('/api/prestadores', rotasPrestadores)
+app.use('/api/clientes', rotasclientes)
 
 app.get('/api', (req, res) => {
     res.status(200).json({
