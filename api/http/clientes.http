@@ -7,7 +7,12 @@ Content-Type: application/json
 
 ###
 // GET - Lista um registro pelo id
-GET {{baseURL}}/id/6511a2afb288a7d4c8dcc894
+GET {{baseURL}}/id/65148024dc6e34b97ffcb91b
+Content-Type: application/json
+
+###
+// GET - Lista um registro pelo cpf
+GET {{baseURL}}/cpf/12345678912
 Content-Type: application/json
 
 ###
@@ -16,8 +21,15 @@ GET {{baseURL}}/nome/Fabio
 Content-Type: application/json
 
 ###
-//GET - Lista um resgistro por media salarial
-GET {{baseURL}}/medSalario/2000,5
+//GET - Lista os resgistros com media salarial menor que o parametro e com 
+//o numero de moradores igual o parametro
+GET {{baseURL}}/salarioMenor/3000/5
+Content-Type: application/json
+
+###
+//GET - Lista os resgistros com media salarial maior que o parametro e com 
+//o numero de moradores igual o parametro
+GET {{baseURL}}/salarioMaior/1000/5
 Content-Type: application/json
 
 ###
@@ -32,11 +44,11 @@ Content-Type: application/json
 
 {
     "cpf": "12345678912",
-    "nome": "Fabio Armando",
-    "moradores_residencia": 5,
+    "nome": "Alexandre Pedra",
+    "moradores_residencia": 5 ,
     "telefone": "11111111111",
     "dtNasc": "2022-10-15",
-    "medSalario": 1550.55
+    "medSalario": 2000.60
 }
 
 ###
@@ -45,11 +57,12 @@ PUT {{baseURL}}
 Content-Type: application/json
 
 {
+    "_id": "6511a2afb288a7d4c8dcc894",
     "cpf": "12345678912",
     "nome": "Fabio Alexandre",
     "moradores_residencia": 25,
     "telefone": "11111111111",
     "dtNasc": "2022-10-15",
-    "medSalario": 1550.55
+    "medSalario": 3000
 }
 

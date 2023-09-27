@@ -21,7 +21,8 @@ const validaCliente = [
     check('moradores_residencia').not().isEmpty().trim().withMessage('Devem ser infomrados a quantidade de moradores em sua residencia')
     .isNumeric().withMessage('O numero de moradores deve ser um numero'),
     check('telefone').not().isEmpty().trim().withMessage('É obrigatório informar o Telefone')
-    .isLength({min: 11, max:11}).withMessage('O telefone deve conter 11 nºs')
+    .isLength({min: 11, max:11}).withMessage('O telefone deve conter 11 nºs'),
+    check('medSalario').isNumeric().withMessage('O Salario deve ser um numero'),
     
     
 ]
@@ -88,13 +89,13 @@ router.get('/nome/:nome', async(req, res)=> {
 })
 
 /**
- * GET /api/clientes/medSalario/:salario
- * Lista os clientes de serviço pela media Salario menor que o valor digitado
+ * GET /api/clientes/cpf/:cpf
+ * Lista os clientes de serviço pela nome 
  */
-router.get('/medSalario/:medSalario,:moradores_residencia', async(req, res)=> {
+router.get('/cpf/:cpf', async(req, res)=> {
     try{
         db.collection(nomeCollection)
-        .find({$and: [{'medSalario': {$lt: {$regex: req.params.medSalario }}},{'moradores_residencia':{$eq: {$regex: req.params.moradores_residencia }}}]})
+        .find({'cpf': {$eq: req.params.cpf}})
         .toArray((err, docs) => {
             if(err){
                 res.status(400).json(err) // bad request
@@ -106,6 +107,55 @@ router.get('/medSalario/:medSalario,:moradores_residencia', async(req, res)=> {
         res.status(500).json({"error": err.message})
     }
 })
+
+// GET /api/clientes/medSalario/:salario/:moradores
+// lista os clientes com salario abaixo da media escolhida e com uma quantidade igual de moradores na residencia
+
+router.get('/salarioMenor/:salario/:moradores', async(req, res)=>{
+
+    try{
+
+        const salario = parseFloat(req.params.salario);
+        
+        db.collection(nomeCollection)
+        .find({$and:  [{'medSalario': { $lte: salario}}, {'moradores_residencia': {$eq: req.params.moradores}}]})
+        .toArray((err, docs)=>{
+
+            if(err)
+                res.status(400).json(err) //bad request
+            else    
+                res.status(200).json(docs)
+        })
+    }catch(err){
+
+        res.status(500).json({"error": err.message})
+    }
+})
+
+// GET /api/clientes/medSalario/:salario/:moradores
+// lista os clientes com salario maior que a media escolhida e com uma quantidade igual de moradores na residencia
+
+router.get('/salarioMaior/:salario/:moradores', async(req, res)=>{
+
+    try{
+
+        const salario = parseFloat(req.params.salario);
+        
+        db.collection(nomeCollection)
+        .find({$and:  [{'medSalario': { $gte: salario}}, {'moradores_residencia': {$eq: req.params.moradores}}]})
+        .toArray((err, docs)=>{
+
+            if(err)
+                res.status(400).json(err) //bad request
+            else    
+                res.status(200).json(docs)
+        })
+    }catch(err){
+
+        res.status(500).json({"error": err.message})
+    }
+})
+
 
 /**
  * DELETE /api/clientes/:id
