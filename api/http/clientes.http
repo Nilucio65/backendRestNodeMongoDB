@@ -1,5 +1,6 @@
 // Teste das Requisições REST dos cliente
-@baseURL = http://localhost:4000/api/clientes
+//@baseURL = http://localhost:4000/api/clientes
+@baseURL  = https://backend-mongodb-pi.vercel.app/api/clientes
 
 // GET - Lista todos os registros
 GET {{baseURL}}
