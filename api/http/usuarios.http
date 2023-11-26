@@ -1,0 +1,51 @@
+// Teste do endpoint usuarios
+@baseURL = http://localhost:4000/api/usuarios
+//@baseURL  = https://backend-mongodb-pi.vercel.app/api/usuarios
+
+###
+POST {{baseURL}}
+Content-Type: application/json
+
+{
+    "nome": "Nicolas Alberto Lucio",
+    "email": "nicolas@gmail.com",
+    "senha": "N1col@s"
+}
+
+
+###
+// POST - Efetuar o login
+POST {{baseURL}}/login
+Content-Type: application/json
+
+{
+    "email": "nicolas@gmail.com",
+    "senha": "N1col@s"
+}
+
+###
+// GET - Obtem os usuários
+GET {{baseURL}}
+Content-Type: application/json
+access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjoiNjU1Y2U2ZWFhMGQ5ZjA1OTZiNmZjZWM0In0sImlhdCI6MTcwMDU4NzI0NiwiZXhwIjoxNzAwNTg3MjUzfQ.8O0aCVtiMwSkvIlbwqRJzJdTGzaCSwTsi_VsWGJRSMg 
+
+###
+// DELETE - Remove o usuário pelo id
+DELETE {{baseURL}}/65367a063f4dc7100a61673d
+Content-Type: application/json
+access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjoiNjU1NDA1MTE5NDQyN2E0MjA0ZjllYTQxIn0sImlhdCI6MTcwMDU4NjgyMSwiZXhwIjoxNzAwNTg2ODI4fQ.ecmv7urgngzuomrYM7qeUk6KJBfy42Ra4Axed2xyc4w
+
+###
+// PUT - Edita o usuário pelo id
+PUT {{baseURL}}/65367a40362e4883cc8e29c0
+Content-Type: application/json
+access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjoiNjUzNjdhNDAzNjJlNDg4M2NjOGUyOWMwIn0sImlhdCI6MTY5ODA2OTA1OSwiZXhwIjoxNjk4MzI4MjU5fQ.cLtXR2sCCdocxUISVG7WyX7_Sh8uYCZjKghlVg3YMi8
+
+{   
+    "nome": "Nicolas AlTERADO",
+    "email": "nicolas@gmail.com",
+    "ativo": true,
+    "tipo": "Cliente",
+    "senha": "N1col@s",
+    "avatar": "https://ui-avatars.com/api/?name=José+Alves+Silva&background=F00&color=00F"
+}

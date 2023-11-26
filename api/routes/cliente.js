@@ -18,11 +18,11 @@ const validaCliente = [
     .withMessage('O nome não deve ter caracteres especiais'),
     check('dtNasc')
     .not().isEmpty().trim().withMessage('É obrigatório informar a Data de nascimento'),
-    check('moradores_residencia').not().isEmpty().trim().withMessage('Devem ser infomrados a quantidade de moradores em sua residencia')
-    .isNumeric().withMessage('O numero de moradores deve ser um numero'),
+    check('moradores_residencia').not().isEmpty().trim().withMessage('Devem ser informados a quantidade de moradores em sua residência')
+    .isNumeric({min:1}).withMessage('O número de moradores deve ser um número'),
     check('telefone').not().isEmpty().trim().withMessage('É obrigatório informar o Telefone')
     .isLength({min: 11, max:11}).withMessage('O telefone deve conter 11 nºs'),
-    check('medSalario').isNumeric().withMessage('O Salario deve ser um numero'),
+    check('medSalario').isNumeric({min:0}).withMessage('O Salário deve ser um número'),
     
     
 ]
@@ -90,7 +90,7 @@ router.get('/nome/:nome', async(req, res)=> {
 
 /**
  * GET /api/clientes/cpf/:cpf
- * Lista os clientes de serviço pela nome 
+ * Lista os clientes de serviço pelo cpf
  */
 router.get('/cpf/:cpf', async(req, res)=> {
     try{

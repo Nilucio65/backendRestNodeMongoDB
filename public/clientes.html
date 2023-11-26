@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Bootstrap 5-->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Ícones Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css" rel="stylesheet">
+  <!-- Para consultar a lista de ícones, acesse: https://icons.getbootstrap.com/ -->
+  <link href="images/logo.png" rel="icon" type="image/png" />
+  <title>Menu Principal</title>
+</head>
+
+<body  onload="carregaClientes()">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-success p-2">
+        <a class="navbar-brand" href="menu.html">CadCli</a>
+        <div class="navbar-collapse justify-content-between">
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+                    <a class="nav-link" href="clientes.html">Clientes</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Usuários</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav">
+                <li class="nav-item m-3">
+                    <a class="btn btn-danger" href="#" id="logoutBtn">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <!-- Formulário -->
+        <h4 class="text-primary mt-3">Cadastro de Clientes de Serviço</h4>
+        <form id="formCliente" method="post" class="shadow-lg p-3">
+          <!-- Id -->  
+          <input type="hidden" id="id" name="id" />
+          <!-- Nome -->
+          <div class="mb-3">
+            <label for="nome" class="form-label">Nome</label>
+            <input type="text" class="form-control" id="nome" name="nome" placeholder="Nome" autofocus/>
+          </div>
+          <!-- Telefone -->
+          <div class="mb-3">
+            <label for="tel" class="form-label">Telefone</label>
+            <input type="text" class="form-control" id="tel" name="tel" placeholder="(11) 11111-1111" />
+          </div>
+          <!-- CPF -->
+          <div class="mb-3">
+            <label for="cpf" class="form-label">CPF</label>
+            <input type="text" class="form-control" id="cpf" name="cpf"  placeholder="Ex: 11111111111"
+              maxlength="11" pattern="[0-9]{11}" title="Informe o CPF no formato 11111111111" />            
+          </div>
+          <!-- Moradores da Residência -->
+          <div class="mb-3">
+            <label for="mr" class="form-label">Moradores da Residência</label>
+            <input type="number" class="form-control" id="mr" name="mr" min="1" placeholder="Ex: 2"/>            
+          </div>
+           <!-- Media Salarial e Data de Nascimento -->
+           <div class="mb-3 row">
+            <div class="col-md-6">
+              <label for="medSalario" class="form-label">Media Salarial</label>
+              <input type="number" class="form-control" id="medSalario" name="medSalario" min="0"  placeholder="1000" />
+            </div> <!-- fecha a coluna latitude -->
+            <div class="col-md-6">
+              <label for="dtNasc" class="form-label">Data de Nascimento</label>
+              <input type="date" class="form-control" id="dtNasc" name="dtNasc"  required>
+            </div> <!-- fecha a coluna longitude -->
+          </div> <!-- fecha a linha -->
+          </div> <!-- fecha a linha -->
+          <!-- Botões-->
+          <div class="my-5">
+            <button class="btn btn-success" id="salvar" type="submit">
+              <i class="bi bi-save"></i> Salvar
+            </button>
+            <button class="btn btn-danger" id="limpar" type="reset">
+              <i class="bi bi-x"></i> Limpar
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="row mb-5">
+      <div class="col-md-12">
+        <h4 class="text-primary mt-3">Tabela de Clientes Cadastrados</h4>
+        <table class="table table-bordered shadow-lg">
+          <thead>
+            <tr class="table-success">
+              <th>Nome</th>
+              <th>Telefone</th>
+              <th>Media Salarial</th>
+              <th>Dt. Nascimento</th>              
+              <th>Opções</th>
+            </tr>
+          </thead>
+          <tbody id="dadosTabela"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+      <!-- Modal -->
+      <div class="modal fade" id="modalMensagem" tabindex="-1" role="dialog">
+        <div class="modal-dialog bg-danger" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-danger">Mensagem</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                </div>
+                <div class="modal-body">
+                    <p id="mensagem"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+<!-- Rodapé -->
+<footer class="footer fixed-bottom text-white text-center bg-success p-2" >
+  <div class="container my-2">
+    &copy; CadCli Nicolas & Mariana 2023
+  </div>
+</footer>
+<!-- JS -->
+<script src="js/validatoken.js"></script>
+<script src="js/cliente.js"></script>
+
+</body>
+
+</html>

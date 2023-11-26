@@ -4,7 +4,7 @@ db.clientes.insertOne({
     "nome": "Fabio Alexandre",
     "moradores_residencia": 3,
     "telefone": "11111111111",
-    "dtnasc": "1992-10-15",
+    "dtNasc": "1992-10-15",
     "medSalario": 1300.55,
 })
 
@@ -14,7 +14,7 @@ db.clientes.insertOne({
     "nome": "Martha Fabulosa",
     "moradores_residencia": 5,
     "telefone": "11958458754",
-    "dtnasc": "1989-05-26",
+    "dtNasc": "1989-05-26",
     "medSalario": 1550.55,
     
 })
